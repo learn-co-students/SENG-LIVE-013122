@@ -31,111 +31,101 @@ const pokemons = [
   },
 ];
 
-// Identify the following css selectors
-// id: #idName unique
-// class: .className
-// element: elementName, p
+// identify css selectors
+// class: reserve these for when we want to select a series of elements at once .classname
+// id: unique for every elemnt #idname
+// element
 
-// What is DOM?
-// Document Object Model
+// how do we access elements(select elements)
 
-// How do we start manipulating things?
-
-// How do we access elements, select elements
-
-// document.getElementById()
-// accepts the id as an argument
-// returns the first match
+// document.getElementById('id')
+// - take an id as argument
+// - it will return the first match
+// - its only going to return 1 element
 
 const pokeForm = document.getElementById("poke-form");
 // console.log(pokeForm)
 
-// document.getElementsByClassName()
-// accepts class name as the argument
-// returns multiple elements, as an HTMLCollection
-// to convert collection to an array, Array.from()
+// document.getElementsByClassName('class-name')
+// - accept a class name
+// return multiple elements, HTMLCollection
+// use Array.from() to conver to an array
 
 const label = document.getElementsByClassName("form-label");
 // console.log(label)
 
 // document.querySelector()
-// accepts different selectors: ids, class, tags
-// returns the first value that matches the provided selector
+// accept class, id and element
+// will return the first element it finds
 
-const goalsDiv = document.querySelector("#lecture-goals");
-// console.log(goalsDiv)
+const lectureDiv = document.querySelector("#lecture-goals");
+
+// console.log(lectureDiv)
 
 // document.querySelectorAll()
-// returns a collection of elements that match the selector
-// .forEach can be used on this collection
-// returns a NodeList
+// accepts class, id and element
+// return a collection: node list
+// can use .forEach to iterate over
 
 const allDivs = document.querySelectorAll("div");
 // console.log(allDivs)
 
-// selecting the pokeContainer
+// create elements
+
+// document.createElement(element)
+
 const pokeContainer = document.querySelector("#poke-container");
 
-// Creating elements
+pokemons.forEach(function (char) {
+  // build a method that takes each character data
+  // creates some content regarding that data
+  // put it on the web page
 
-pokemons.forEach(function (pokemon) {
-  // do something/write some logic
-  renderPokemon(pokemon);
+  renderPokemon(char);
 });
 
 function renderPokemon(character) {
   console.log(character);
-  // create elements that display our characters properties to the DOM
 
   // create a div
-  const pokeCard = document.createElement("div"); // creating a node
+  const pokeCard = document.createElement("div"); // a node
   pokeCard.id = `poke-${character.id}`;
   pokeCard.className = "poke-card";
 
+  // slap a thing on the DOM
+
+  // fill the card in with a characters img
   const pokeImg = document.createElement("img");
   pokeImg.src = character.img;
   pokeImg.alt = `${character.name} image`;
 
   const pokeName = document.createElement("h3");
-  pokeName.innerHTML = character.name;
-
-  // adding pokeCard to pokeContainer
+  pokeName.textContent = character.name;
 
   pokeCard.append(pokeImg, pokeName);
+  // pokeCard.appendChild(pokeName);
   pokeContainer.appendChild(pokeCard);
+  // .innerHTML += // append to the rest of the content
+  // .innerHTML = // replace all the content
 }
 
-// ways to add new elements to existing element
-// .appendChild - takes in 1 argument, and it MUST BE a node
-// .append - take in multiple arguments, and they dont have to be nodes
+// .appendChild
+// requires a node as its parameter
+// only takes in 1 parameter
 
-// document.createElement()
-// creates nodes
-// .innerHTML
-// creates strings that represent the element
+// .append
+// will accept a string
+// does not have to be nodes
+// can pass in multiple parameters
 
-// Updating elements
+// updating elements
 
-// select the element we want to change
-// set it equal to its new value
-
-const header = document.querySelector("#header");
-header.innerHTML = `<img id="header-img"
+const headerDiv = document.querySelector("#header");
+headerDiv.innerHTML = `<img id="header-img"
 src="https://external-preview.redd.it/tQged7mKJ3cUpNMq5IMeceZvyKP3cTyHqhNmKEQ0Vv8.png?auto=webp&s=fb5fd61cae0bc9cde2bc2a006b1e2aeb0c935ce9"
 />`;
 
-// const headerImg = document.createElement('img')
-// const h1 = document.querySelector('h1')
-// console.log(h1)
-// headerImg.id = "header-img"
-// headerImg.src = "https://external-preview.redd.it/tQged7mKJ3cUpNMq5IMeceZvyKP3cTyHqhNmKEQ0Vv8.png?auto=webp&s=fb5fd61cae0bc9cde2bc2a006b1e2aeb0c935ce9"
+// remove elements
 
-// header.replaceChild(headerImg, h1)
-
-// Remove elements from our DOM
-
-// .remove() called on the targeted element
-
-document.querySelector("#lecture-goals").remove();
-// const lectureGoals = document.querySelector('#lecture-goals')
-// lectureGoals.remove()
+const lectureGoals = document.querySelector("#lecture-goals");
+lectureGoals.remove();

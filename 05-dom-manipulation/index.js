@@ -120,10 +120,17 @@ function renderPokemon(character) {
 
 // updating elements
 
-const headerDiv = document.querySelector("#header");
-headerDiv.innerHTML = `<img id="header-img"
-src="https://external-preview.redd.it/tQged7mKJ3cUpNMq5IMeceZvyKP3cTyHqhNmKEQ0Vv8.png?auto=webp&s=fb5fd61cae0bc9cde2bc2a006b1e2aeb0c935ce9"
-/>`;
+// const headerDiv = document.querySelector("#header");
+// headerDiv.innerHTML = `<img id="header-img"
+// src="https://external-preview.redd.it/tQged7mKJ3cUpNMq5IMeceZvyKP3cTyHqhNmKEQ0Vv8.png?auto=webp&s=fb5fd61cae0bc9cde2bc2a006b1e2aeb0c935ce9"
+// />`;
+
+const headerImg = document.createElement('img')
+const h1 = document.querySelector('h1')
+headerImg.id = "header-img"
+headerImg.src = "https://external-preview.redd.it/tQged7mKJ3cUpNMq5IMeceZvyKP3cTyHqhNmKEQ0Vv8.png?auto=webp&s=fb5fd61cae0bc9cde2bc2a006b1e2aeb0c935ce9"
+
+header.replaceChild(headerImg, h1)
 
 // remove elements
 

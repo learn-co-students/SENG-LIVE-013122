@@ -1,3 +1,15 @@
+const BASE_URL = "http://localhost:3000"
+
+// ENDPOINT: a location associated with our base url, to serve specific data 
+
+// /characters => all of the characters stored in our db.json
+
+// /characters/:id => retrieve the character with the given id 
+
+// persisting: sending a request to save the data in the database
+
+// "characterId": 1,  telling us which character the comment that was submitted belongs to 
+
 const pokeContainer = document.querySelector("#poke-container");
 const pokeForm = document.querySelector("#poke-form");
 const pokeFormContainer = document.querySelector("#poke-form-container");
@@ -70,7 +82,8 @@ function renderPokemon(pokemon) {
   const likesBttn = document.createElement("button");
   likesBttn.className = "like-bttn";
   likesBttn.textContent = "♥";
-  likesBttn.addEventListener("click", function () {
+  likesBttn.addEventListener("click", function (event) {
+    event.stopPropagation()
     ++pokemon.likes;
     likeNum.textContent = pokemon.likes;
   });
@@ -78,7 +91,8 @@ function renderPokemon(pokemon) {
   const deleteBttn = document.createElement("button");
   deleteBttn.className = "delete-bttn";
   deleteBttn.textContent = "delete";
-  deleteBttn.addEventListener("click", function () {
+  deleteBttn.addEventListener("click", function (event) {
+    event.stopPropagation() // stopping the bubbling
     pokeCard.remove();
   });
 
@@ -99,18 +113,17 @@ function showCharacter(character) {
     .then(function (char) {
       let pokeCard = renderPokemon(char);
       pokeCard.id = "poke-show-card";
-      // pokeCard.dataset.id = character.id;
-      // loadComments(pokeCard, char);
+      pokeCard.dataset.id = character.id;
+      loadComments(pokeCard, char);
       pokeContainer.replaceChildren(pokeCard);
       pokeFormContainer.replaceChildren(commentsForm());
     });
 }
 
-function renderComment(comment) {
+function renderComment(commentsDiv, comment) {
   let li = document.createElement("li");
   li.textContent = comment.content;
-
-  return li;
+  commentsDiv.append(li)
 }
 
 function commentsForm() {
@@ -118,7 +131,39 @@ function commentsForm() {
   form.id = "comment-form";
 
   // attach an event listener to the #comment-form
+  form.addEventListener('submit', function(event){
+    event.preventDefault()
 
+    // my user just submitted the form, what do i do? how do i grab the value 
+    let content = document.querySelector("#comment-input").value
+
+    // need to grab the character id 
+    let characterId = parseInt(document.querySelector('#poke-show-card').dataset.id)
+    let newComment = {
+      content: content,
+      characterId: characterId
+    }
+
+    // making a POST request 
+
+    // what endpoint am i sending this data to?
+    fetch('http://localhost:3000/comments', {
+      method: "POST", // providing HTTP verb for the type of request we are making
+      headers: { // telling our server what type of content we are sending, and we will accept
+        'Content-Type': "application/json",
+        'Accept': "application/json"
+      }, 
+      body: JSON.stringify(newComment) // taking our JS object and making it a string so we can send it across the web 
+    }) // the return value: promise 
+    .then(function(resp){
+      return resp.json()
+    }) // the return value: another promise
+    .then(function(comment){
+      // to render the new comment to the DOM
+      renderComment(comment)
+    })
+    
+  })
   let commentInput = document.createElement("input");
   commentInput.type = "text";
   commentInput.id = "comment-input";
@@ -135,4 +180,28 @@ function commentsForm() {
   form.append(commentInput, submit);
 
   return form;
+}
+
+
+function loadComments(pokeCard, char){
+
+  // i want to see what char looks like:
+  // debugger
+  // inside dev tools console: run `char`, `char.comments`, `char.comments.length`
+
+  // also can console.log(char) => this will only print the value. Debugger could be useful in inspecting values and testing methods
+  const commentsDiv = document.createElement('div') 
+  commentsDiv.id = `comment-card-${char.id}`
+
+  const h4 = document.createElement('h4')
+  h4.textContent = `${char.comments.length} comments:`
+
+  commentsDiv.append(h4)
+  pokeCard.append(commentsDiv)
+
+
+  // how can i access the list of comments
+  char.comments.forEach(function(comment){
+      return renderComment(commentsDiv, comment)
+  })
 }

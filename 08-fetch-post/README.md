@@ -12,7 +12,7 @@
 
 - Install JSON Server by running the following command in the terminal: `npm install -g json-server`
 - For today's exercise, to start the JSON server, run `json-server --watch db.json --routes routes.json` while in the directory that contains the `db.json` file i.e. `SENG-LIVE-013122-phase-1/07-async-fetch`
-- For this project, we will use the following endpoint: `http://localhost:3000/pokemon`
+- For this project, we will use the following endpoint: `http://localhost:3000/characters`
 
 ### Warm up exercise
 

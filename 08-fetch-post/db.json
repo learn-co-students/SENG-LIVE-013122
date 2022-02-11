@@ -38,15 +38,89 @@
       "content": "I love Bulbasaur!"
     },
     {
-      "id": 1,
+      "id": 2,
       "characterId": 1,
       "content": "Bulbasaur is coool!"
     },
     {
-      "id": 2,
-      "user": "Alice",
+      "id": 3,
       "characterId": 2,
       "content": "I love Ivysaur more!"
+    },
+    {
+      "content": "amazing!",
+      "characterId": 1,
+      "id": 4
+    },
+    {
+      "content": "this is a new comment",
+      "characterId": 1,
+      "id": 5
+    },
+    {
+      "content": "",
+      "characterId": 1,
+      "id": 6
+    },
+    {
+      "content": "amazing!",
+      "characterId": 1,
+      "id": 7
+    },
+    {
+      "content": "cool cool cool",
+      "characterId": 1,
+      "id": 8
+    },
+    {
+      "content": "amazing!",
+      "characterId": 1,
+      "id": 9
+    },
+    {
+      "content": "so orange!",
+      "characterId": 4,
+      "id": 10
+    },
+    {
+      "content": "charmander is cool",
+      "characterId": 4,
+      "id": 11
+    },
+    {
+      "content": "amazing!",
+      "characterId": 4,
+      "id": 12
+    },
+    {
+      "content": "dangerous!!",
+      "characterId": 5,
+      "id": 13
+    },
+    {
+      "content": "amazing!",
+      "characterId": 5,
+      "id": 14
+    },
+    {
+      "content": "testing ",
+      "characterId": 4,
+      "id": 15
+    },
+    {
+      "content": "hope this works",
+      "characterId": 4,
+      "id": 16
+    },
+    {
+      "content": "test",
+      "characterId": 1,
+      "id": 17
+    },
+    {
+      "content": "adfa",
+      "characterId": 1,
+      "id": 18
     }
   ]
 }

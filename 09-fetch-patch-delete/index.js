@@ -1,8 +1,24 @@
+// RESTful routing: standard for how routes are defined and their respective purpose
+
+// http://localhost:3000/characters: where our collection of characters currently lives
+
+// http://localhost:3000/characters/:id => need an existing id, return a single resource(the character with the given id)
+
+// PATCH: updating, updating a characters properties(likes)
+// endpoint that we are going to use: /characters/:id
+// send some data: method, content type, data that we are updating the item to
+// the body of the request should indicate which properties are being updated
+//
+
+// DELETE: deleting a single object
+// characters/:id
+
 const BASE_URL = "http://localhost:3000";
 
 const pokeContainer = document.querySelector("#poke-container");
 const pokeForm = document.querySelector("#poke-form");
 const pokeFormContainer = document.querySelector("#poke-form-container");
+let commentsDiv;
 
 // The following methods will fire off on page load:
 
@@ -13,14 +29,28 @@ pokeForm.addEventListener("submit", function (event) {
   const img = document.querySelector("#img-input").value;
 
   let newChar = {
-    id: 6, // NEEDS TO CHANGE,
     name: name,
     img: img,
     likes: 0,
   };
+  // write the method to persist this new character:
 
-  renderPokemon(newChar);
-  pokeForm.reset();
+  // POST
+  fetch("http://localhost:3000/characters", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(newChar),
+  }) //
+    .then(function (resp) {
+      return resp.json();
+    }) //
+    .then(function (character) {
+      renderPokemon(character);
+      pokeForm.reset();
+    });
 });
 
 // Make a request to the server to retrieve and load all pokemon characters onto the DOM:
@@ -75,15 +105,51 @@ function renderPokemon(pokemon) {
   likesBttn.addEventListener("click", function (event) {
     event.stopPropagation();
     ++pokemon.likes;
-    likeNum.textContent = pokemon.likes;
+
+    let likesNum = { likes: pokemon.likes };
+    fetch(`http://localhost:3000/characters/${pokemon.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(likesNum),
+    })
+      .then(function (resp) {
+        return resp.json();
+      })
+      .then(function (character) {
+        likeNum.textContent = character.likes; // pessimistic rendering
+      });
   });
 
+  // optimistic rendering: going to happen faster
+  // likeNum.textContent = pokemon.likes;
   const deleteBttn = document.createElement("button");
   deleteBttn.className = "delete-bttn";
   deleteBttn.textContent = "delete";
   deleteBttn.addEventListener("click", function (event) {
     event.stopPropagation(); // stopping the bubbling
-    pokeCard.remove();
+
+    // pessimistic example:
+    fetch(`http://localhost:3000/characters/${pokemon.id}`, {
+      // what should i send with this request:
+
+      // do i have any data to send?
+      method: "DELETE",
+    }) // promise 
+      .then(function (resp) {
+        return resp.json();
+      })
+      .then(pokeCard.remove())
+
+      // optimistic example
+
+      // fetch(`http://localhost:3000/characters/${pokemon.id}`, {
+      //   method: "DELETE",
+      // }) 
+      // pokeCard.remove()
+    
   });
 
   pokeCard.append(pokeImg, pokeName, pokeLikes, likeNum, likesBttn, deleteBttn);
@@ -110,7 +176,7 @@ function showCharacter(character) {
     });
 }
 
-function renderComment(commentsDiv, comment) {
+function renderComment(comment) {
   let li = document.createElement("li");
   li.textContent = comment.content;
   commentsDiv.append(li);
@@ -149,6 +215,8 @@ function commentsForm() {
       })
       .then(function (comment) {
         renderComment(comment);
+        form.reset();
+        // renderComment(commentsDiv, comment)
       });
   });
 
@@ -171,7 +239,7 @@ function commentsForm() {
 }
 
 function loadComments(pokeCard, char) {
-  const commentsDiv = document.createElement("div");
+  commentsDiv = document.createElement("div");
   commentsDiv.id = `comment-card-${char.id}`;
 
   const h4 = document.createElement("h4");
@@ -181,6 +249,6 @@ function loadComments(pokeCard, char) {
   pokeCard.append(commentsDiv);
 
   char.comments.forEach(function (comment) {
-    return renderComment(commentsDiv, comment);
+    return renderComment(comment);
   });
 }

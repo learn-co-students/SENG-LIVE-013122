@@ -1,3 +1,43 @@
+// What is ES6?
+
+// ES6 => ECMAScript 2015
+
+// latest version of the ECMAScript standard, introduced new features syntax that
+
+// we have been using already (i.e., arrows, const, let, etc.)
+
+// syntactic sugar => easier to write, read and scale
+
+// Declaring Arrow Functions vs. Regular Functions
+
+// Destructuring arrays
+
+// let student1 = students[0]
+// let student2 = students[1]
+// let student3 = students[2]
+// let student4 = students[3]
+
+// let [student1, , student3, student4] = students
+
+// NEED TO keep the order of our variables aligned with their values
+
+// Destructuring objects
+// order doesnt matter
+// IMPORTANT: the variable names should match the property name
+
+// const pokemon = {
+//   name: "Squirtle",
+//   img: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png",
+//   likes: 0,
+//   id: 7
+// }
+
+// const {likes, id, name, image} = pokemon
+
+// Spread operator
+// can be used with arrays and objects
+// creates a shallow copy of the data structure
+
 const pokeContainer = document.querySelector("#poke-container");
 const pokeForm = document.querySelector("#poke-form");
 const pokeFormContainer = document.querySelector("#poke-form-container");
